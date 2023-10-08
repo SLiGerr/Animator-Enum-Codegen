@@ -1,0 +1,1 @@
+# Animator-Enum-Codegen
