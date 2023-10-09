@@ -6,8 +6,11 @@
 ## Usage
 0) (optional) Open ***"AnimatorStatesCodegen.cs"*** and edit name/path consts for your convenience
 ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/2b0d9201-3bd3-4fd6-bbcd-84c554fe319f)
-2) Bake animators by pressing ***"Tools/Generate Animator States"***
-3) Use enum/hashes in your code!
+
+1) Bake animators by pressing ***"Tools/Generate Animator States"***, result:
+![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/f48e87e8-0ac5-4083-be9c-316303de9f92)
+
+2) Use enum/hashes in your code!
 ``` C#
 using static GeneratedData.AnimatorParams; //usage shortcut 
 
