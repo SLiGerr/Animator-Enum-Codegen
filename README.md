@@ -1,6 +1,6 @@
 # Animator-Enum-Codegen
 
-- **What?** - Simple yet convinient way to bake all Animator Controllers to enums
+- **What?** - Simple yet convenient way to bake all Animator Controllers to enums
 - **Why?** - All the available tools that I found on github bake all states in string consts/single enum, which, it seems to me, are not convenient at all 
 
 ## Usage
