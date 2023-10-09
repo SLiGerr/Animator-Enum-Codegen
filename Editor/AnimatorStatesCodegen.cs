@@ -10,14 +10,22 @@ namespace Animator_Enum_Codegen.Editor
 {
     public static class AnimatorStatesCodegen
     {
-        private const string FolderPath = "Assets/_Source/_Code/_Generated";
-        private const string Namespace = "GeneratedData";
-        private const string ClassName = "AnimatorParams";
-
-        [MenuItem("Tools/Generate Animator States")]
+        [MenuItem("Tools/Animator-Enum-Codegen/Create Config")]
+        public static void GenerateConfig()
+        {
+            var config = AnimatorStatesConfig.Instance;
+        }
+        
+        [MenuItem("Tools/Animator-Enum-Codegen/Generate Animator States")]
         public static void ScanAnimationControllers()
         {
             string[] guids = AssetDatabase.FindAssets("t:animatorcontroller");
+
+            var config = AnimatorStatesConfig.Instance;
+            
+            var folderPath = config.folderPath;
+            var className  = config.className;
+            var @namespace = config.@namespace;
             
             var enumDefinitions  = new List<string>();
             var stateNamesLists  = new List<string>();
@@ -73,9 +81,9 @@ $@"using System;
 using System.Collections.Generic;
 using Animator_Enum_Codegen.Runtime;
 
-namespace {Namespace}
+namespace {@namespace}
 {{
-    public static class {ClassName}
+    public static class {className}
     {{
         // Formatted enums
         {string.Join("\n\t\t", enumDefinitions)}
@@ -101,8 +109,8 @@ namespace {Namespace}
     }}
 }}
 ";
-            if (!Directory.Exists(FolderPath)) Directory.CreateDirectory(FolderPath);
-            File.WriteAllText($"{FolderPath}/{ClassName}.cs", code);
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+            File.WriteAllText($"{folderPath}/{className}.cs", code);
             
             AssetDatabase.Refresh();
         }
