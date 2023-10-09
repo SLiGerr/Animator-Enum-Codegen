@@ -92,6 +92,13 @@ namespace {Namespace}
         {{
             {string.Join(",\n\t\t\t", infoDictionary)}
         }};
+
+        public static int GetHash<T>(T state) where T : Enum =>
+            Infos[typeof(T)].Hashes[Convert.ToInt32(state)];
+
+        public static string GetName<T>(T state) where T : Enum =>
+            Infos[typeof(T)].Names[Convert.ToInt32(state)];
+
     }}
 }}
 ";
@@ -104,8 +111,8 @@ namespace {Namespace}
         private static string CleanText(string input)
         {
             var cleanedString          = new string(input.Where(c => !char.IsWhiteSpace(c)).ToArray());
-            var titleCaseString        = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleanedString.ToLower());
-            var cleanedTitleCaseString = Regex.Replace(titleCaseString, @"[^a-zA-Z0-9]", "");
+            //var titleCaseString        = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleanedString.ToLower());
+            var cleanedTitleCaseString = Regex.Replace(cleanedString, @"[^a-zA-Z0-9]", "");
             return cleanedTitleCaseString;
         }
     }
