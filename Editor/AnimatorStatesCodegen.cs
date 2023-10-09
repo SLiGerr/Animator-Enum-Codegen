@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -72,7 +71,7 @@ namespace Animator_Enum_Codegen.Editor
             string code = 
 $@"using System;
 using System.Collections.Generic;
-using Animator_Enum_Codegen;
+using Animator_Enum_Codegen.Runtime;
 
 namespace {Namespace}
 {{

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Animator_Enum_Codegen
+namespace Animator_Enum_Codegen.Runtime
 {
     public class StatesData
     {

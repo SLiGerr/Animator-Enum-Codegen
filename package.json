@@ -1,0 +1,24 @@
+{
+  "name": "com.bolttalking.animatorenumcodegen",
+  "author":
+  {
+    "name": "Bolttalking",
+    "url": "https://t.me/bolttalk"
+  },
+  "displayName": "Animator Enum Codegen",
+  "description": "Simple yet convenient way to bake all Animator Controllers to Enums.",
+  "unity": "2022.3",
+  "version": "0.1.1",
+  "keywords": [
+    "animator",
+    "enums",
+    "codegen",
+    "baking",
+    "performance"
+  ],
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SLiGerr/Animator-Enum-Codegen.git"
+  }
+}
