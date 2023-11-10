@@ -151,21 +151,21 @@ namespace {@namespace}
             Infos[typeof(T)].Names[Convert.ToInt32(state)];
 
         /// <summary>
-        /// Get state-lengths dictionary table from animator by controller type enum 
+        /// Get state-durations dictionary table from animator by controller type enum 
         /// </summary>
         /// <param name=""animator"">Animator to collect info from</param>
-        /// <param name=""lengths"" >Output enum-float Dictionary </param >
+        /// <param name=""durations"" >Output enum-float Dictionary </param >
         /// <typeparam name=""T"">Type of animator's generated ENUM</typeparam>
-        public static void GatherClipLengths<T>(this Animator animator, out Dictionary<T, float> lengths) where T : Enum
+        public static void GatherStatesDurations<T>(this Animator animator, out Dictionary<T, float> durations) where T : Enum
         {{
             var animatorStates = animator.GetAnimatorStateInfo();
             var enumStates = Enum.GetValues(typeof(T));
-            lengths = new Dictionary<T, float>();
+            durations = new Dictionary<T, float>();
             
             foreach (T enumState in enumStates)
             foreach (var animatorState in animatorStates)
                 if (GetName(enumState).Equals(animatorState.name))
-                    lengths.Add(enumState, animatorState.motion.averageDuration / animatorState.speed);
+                    durations.Add(enumState, animatorState.motion.averageDuration / animatorState.speed);
         }}
     }}
 }}

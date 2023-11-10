@@ -60,8 +60,8 @@ public class Test : MonoBehaviour
     
     private void LengthsFoo()
     {
-        //Get states lenghts
-        animator.GatherClipLengths<PlayerAvatarAnimator_States>(out var infos);
+        //Get states durations
+        animator.GatherStatesDurations<PlayerAvatarAnimator_States>(out var infos);
         Debug.Log($"Idle duration is {infos[PlayerAvatarAnimator_States.Idle]}s");
         Debug.Log($"Run duration is {infos[PlayerAvatarAnimator_States.Run]}s");
         Debug.Log($"Walk duration is {infos[PlayerAvatarAnimator_States.Walk]}s");
