@@ -11,7 +11,7 @@
 ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/f48e87e8-0ac5-4083-be9c-316303de9f92)
 
 2) Use enum/hashes in your code!
-``` C#
+```CCharp
 using static GeneratedData.AnimatorParams; //usage shortcut 
 
 public class Test : MonoBehaviour
@@ -44,3 +44,21 @@ public class Test : MonoBehaviour
     }
 }
 ```
+## Extensions
+
+```CCharp
+using static GeneratedData.AnimatorParams; //usage shortcut 
+
+public class Test : MonoBehaviour
+{
+    [SerializeField] private Animator animator;
+    
+    private void LengthsFoo()
+    {
+        //Get states lenghts
+        animator.GatherClipLengths<PlayerAvatarAnimator_States>(out var infos);
+        Debug.Log($"Idle duration is {infos[PlayerAvatarAnimator_States.Idle]}s");
+    }
+}
+```
+
