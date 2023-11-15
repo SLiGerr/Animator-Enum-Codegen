@@ -3,14 +3,32 @@
 - **What?** - Simple yet convenient way to bake all Animator Controllers to enums
 - **Why?** - All the available tools that I found on github bake all states in string consts/single enum, which, it seems to me, are not convenient at all 
 
+## Download
+
+1) Open ```Package Manager``` in Unity,
+2) Select ```Add package from git URL...```,
+3) Paste ```https://github.com/SLiGerr/Animator-Enum-Codegen.git``` and press **Add**
+
 ## Usage
 0) Create config by pressing ***"Tools/Animator-Enum-Codegen/Create Config"*** and edit name/path fields for your convenience
-
-    ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/0be96aca-1161-4e11-8d31-f181a6e9b70b)
-
+   <blockquote> 
+   <details>
+   <summary>Config Fields</summary>
+   
+   ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/0be96aca-1161-4e11-8d31-f181a6e9b70b)
+   
+   </details>
+   </blockquote>
 1) Bake animators by pressing ***"Tools/Animator-Enum-Codegen/Generate Animator States"***, result:
+   <blockquote> 
+   <details>
+   <summary>Generation Example</summary>
 
-    ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/f48e87e8-0ac5-4083-be9c-316303de9f92)
+   ![image](https://github.com/SLiGerr/Animator-Enum-Codegen/assets/23235631/f48e87e8-0ac5-4083-be9c-316303de9f92)
+
+   </details>
+   </blockquote>
+    
 
 2) Use enum/hashes in your code!
 

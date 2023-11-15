@@ -11,12 +11,6 @@ namespace Animator_Enum_Codegen.Editor
 {
     public static class AnimatorStatesCodegen
     {
-        [MenuItem("Tools/Animator-Enum-Codegen/Create Config")]
-        public static void GenerateConfig()
-        {
-            var config = AnimatorStatesConfig.Instance;
-        }
-        
         [MenuItem("Tools/Animator-Enum-Codegen/Generate Animator States")]
         public static void ScanAnimationControllers()
         {
