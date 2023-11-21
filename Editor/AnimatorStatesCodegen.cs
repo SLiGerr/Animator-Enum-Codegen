@@ -22,10 +22,11 @@ namespace Animator_Enum_Codegen.Editor
             var className  = config.className;
             var @namespace = config.@namespace;
             
-            var enumDefinitions  = new List<string>();
-            var stateNamesLists  = new List<string>();
-            var stateHashesLists = new List<string>();
-            var infoDictionary   = new List<string>();
+            var enumDefinitions    = new List<string>();
+            var stateNamesLists    = new List<string>();
+            var stateHashesLists   = new List<string>();
+            var stateDurationLists = new List<string>();
+            var infoDictionary     = new List<string>();
             
             var nameCountMap = new Dictionary<string, int>();
 
@@ -34,8 +35,9 @@ namespace Animator_Enum_Codegen.Editor
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
 
-                var layer = controller.layers[0];
-                var states = layer.stateMachine.states;
+                var layer          = controller.layers[0];
+                var states         = layer.stateMachine.states;
+                var animatorStates = controller.GetAnimatorStateInfo();
 
                 var cleanName = CleanText(controller.name);
                 
@@ -54,25 +56,37 @@ namespace Animator_Enum_Codegen.Editor
                 var enumDefinition = $"public enum {enumName} {{ {string.Join(", ", enumNames)} }}";
                 enumDefinitions.Add(enumDefinition);
 
-                // Generate string list
+                // Generate name list
                 var listName = cleanName + "_Names";
                 var stateNames = states.Select(s => s.state.name).ToList();
                 var stateNamesList = $"public static readonly List<string> {listName} = new List<string>{{ {string.Join(", ", stateNames.Select(n => $"\"{n}\""))} }};";
                 stateNamesLists.Add(stateNamesList);
 
-                // Generate int list
+                // Generate hash list
                 var hashesName = cleanName + "_Hash";
                 var stateHashes = stateNames.Select(Animator.StringToHash).ToList();
                 var stateHashesList = $"public static readonly List<int> {hashesName} = new List<int>{{ {string.Join(", ", stateHashes)} }};";
                 stateHashesLists.Add(stateHashesList);
                 
+                // Generate duration list
+                var durationsName = cleanName + "_Duration";
+                var stateDurations = stateNames.Select(GetStateDur).ToList();
+                var stateDurationsList = $"public static readonly List<float> {durationsName} = new List<float>{{ {string.Join("f, ", stateDurations)}f }};";
+                stateDurationLists.Add(stateDurationsList);
+
+                float GetStateDur(string stateName)
+                {
+                    return (from animatorState in animatorStates where stateName.Equals(animatorState.name)
+                        select animatorState.motion.averageDuration / animatorState.speed).FirstOrDefault();
+                }
+                
                 // Generate info list
-                string info = $"{{ typeof({enumName}), new StatesData({listName}, {hashesName}) }}";
+                string info = $"{{ typeof({enumName}), new StatesData({listName}, {hashesName}, {durationsName}) }}";
                 infoDictionary.Add(info);
             }
 
             string code = CodegenPasta.GetPasta(@namespace, className, 
-                enumDefinitions, stateNamesLists, stateHashesLists, infoDictionary);
+                enumDefinitions, stateNamesLists, stateHashesLists, stateDurationLists, infoDictionary);
 
             if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
             File.WriteAllText($"{folderPath}/{className}.cs", code);
@@ -91,10 +105,10 @@ namespace Animator_Enum_Codegen.Editor
 
     public static class CodegenPasta
     {
-        public static string GetPasta(
-            string       @namespace,       string       className,
-            List<string> enumDefinitions,  List<string> stateNamesLists,
-            List<string> stateHashesLists, List<string> infoDictionary)
+        public static string GetPasta(string       @namespace,       string       className,
+                                      List<string> enumDefinitions,  List<string> stateNamesLists,
+                                      List<string> stateHashesLists, List<string> stateDurationLists,
+                                      List<string> infoDictionary)
         { 
             return 
 $@"// ------------------------------------------------------------------------------------
@@ -119,6 +133,9 @@ namespace {@namespace}
 
         // int hashes
         {string.Join("\n\t\t", stateHashesLists)}
+
+        // float durations
+        {string.Join("\n\t\t", stateDurationLists)}
 
         // Typed Dictionary
         public static readonly Dictionary<Type, StatesData> Infos = new () 
@@ -145,22 +162,13 @@ namespace {@namespace}
             Infos[typeof(T)].Names[Convert.ToInt32(state)];
 
         /// <summary>
-        /// Get state-durations dictionary table from animator by controller type enum 
+        /// Shortcut to get actual state duration from enum value
         /// </summary>
-        /// <param name=""animator"">Animator to collect info from</param>
-        /// <param name=""durations"" >Output enum-float Dictionary </param >
-        /// <typeparam name=""T"">Type of animator's generated ENUM</typeparam>
-        public static void GatherStatesDurations<T>(this Animator animator, out Dictionary<T, float> durations) where T : Enum
-        {{
-            var animatorStates = animator.GetAnimatorStateInfo();
-            var enumStates = Enum.GetValues(typeof(T));
-            durations = new Dictionary<T, float>();
-            
-            foreach (T enumState in enumStates)
-            foreach (var animatorState in animatorStates)
-                if (GetName(enumState).Equals(animatorState.name))
-                    durations.Add(enumState, animatorState.motion.averageDuration / animatorState.speed);
-        }}
+        /// <param name=""state"">Generated animator state enum value</param>
+        /// <typeparam name=""T"">Generated animator controller type</typeparam>
+        /// <returns>State name</returns>
+        public static float GetDuration<T>(T state) where T : Enum =>
+            Infos[typeof(T)].Durations[Convert.ToInt32(state)];
     }}
 }}
 ";

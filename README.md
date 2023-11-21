@@ -47,43 +47,20 @@ public class Test : MonoBehaviour
         //Get info by the type 
         var statesInfo = Infos[typeof(PlayerAvatarAnimator_States)];
 
-        //Get Name by state
-        var stateName = statesInfo.Names[(int)idleState];
+        //Get Name, Hash or Duration by state
+        var stateName      = statesInfo.Names[(int)idleState];
+        var stateHash      = statesInfo.Hashes[(int)idleState];
+        var stateDuration  = statesInfo.Durations[(int)idleState];
 
         //Or use shortcuts!
-        stateName = GetName(PlayerAvatarAnimator_States.Idle);
+        stateName     = GetName(idleState);
+        stateHash     = GetHash(idleState);
+        stateDuration = GetDuration(idleState);
         
-        //Get Hash by state
-        var stateHash = statesInfo.Hashes[(int)idleState];
-        
-        //Or use shortcuts!
-        stateHash = GetHash(PlayerAvatarAnimator_States.Idle);
-
         //Play from hash or from name
         animator.Play(stateHash);
         animator.Play(stateName);
+        
+        Debug.Log($"{stateName} duration is {stateDuration}");
     }
 }
-```
-## Extensions
-
-### Get Animator states lengths
-
-```CCharp
-using static GeneratedData.AnimatorParams; //usage shortcut 
-
-public class Test : MonoBehaviour
-{
-    [SerializeField] private Animator animator;
-    
-    private void LengthsFoo()
-    {
-        //Get states durations
-        animator.GatherStatesDurations<PlayerAvatarAnimator_States>(out var infos);
-        Debug.Log($"Idle duration is {infos[PlayerAvatarAnimator_States.Idle]}s");
-        Debug.Log($"Run duration is {infos[PlayerAvatarAnimator_States.Run]}s");
-        Debug.Log($"Walk duration is {infos[PlayerAvatarAnimator_States.Walk]}s");
-        Debug.Log($"Jump duration is {infos[PlayerAvatarAnimator_States.Jump]}s");
-    }
-}
-```
