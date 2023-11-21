@@ -1,12 +1,13 @@
 ﻿using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace Animator_Enum_Codegen.Editor
 {
     public class AnimatorStatesConfig : ScriptableObject
     {
-        [MenuItem("Tools/Animator-Enum-Codegen/Create Config")]
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem("Tools/Animator-Enum-Codegen/Create Config")]
+#endif
         public static void GenerateConfig()
         {
             var config = Instance;
