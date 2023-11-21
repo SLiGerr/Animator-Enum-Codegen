@@ -76,7 +76,7 @@ namespace Animator_Enum_Codegen.Editor
 
                 float GetStateDur(string stateName)
                 {
-                    return (from animatorState in animatorStates where stateName.Equals(animatorState.name)
+                    return (from animatorState in animatorStates where animatorState.motion != null && stateName.Equals(animatorState.name)
                         select animatorState.motion.averageDuration / animatorState.speed).FirstOrDefault();
                 }
                 
